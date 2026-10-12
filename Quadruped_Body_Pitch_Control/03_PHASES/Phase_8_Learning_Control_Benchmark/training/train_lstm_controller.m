@@ -177,7 +177,10 @@ for epoch = 1:max_epochs
             m_hat = m_adam.(param_names{p}) / (1 - beta1^t_step);
             v_hat = v_adam.(param_names{p}) / (1 - beta2^t_step);
             
-            net.(param_names{p}) = net.(param_names{p}) - (lr / (sqrt(v_hat) + eps_adam)) .* m_hat;
+            
+net.(param_names{p}) = net.(param_names{p}) ...
+    - (lr ./ (sqrt(v_hat) + eps_adam)) .* m_hat;
+
         end
     end
     

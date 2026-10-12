@@ -112,12 +112,49 @@ fprintf('|Td| = %.8f N.m\n', ...
 % 42. Automatically determine disturbance-response settling time
 % ------------------------------------------------------------
 
+
+% Calculate disturbance settling time using a peak-relative
+% 2% tolerance because the disturbance response returns to zero.
+
 info_disturbance = stepinfo(G_disturbance);
 
-disturbance_settling_time = ...
-    info_disturbance.SettlingTime;
+% Simulate disturbance response over an automatically chosen horizon
+t_check = 0:0.01:200;
+y_check = step(G_disturbance, t_check);
+y_check = y_check(:);
+
+% 2% of peak disturbance response
+peak_response = max(abs(y_check));
+tolerance = 0.02 * peak_response;
+
+% Find last sample outside tolerance band
+last_outside = find(abs(y_check) > tolerance, 1, 'last');
+
+if isempty(last_outside)
+    disturbance_settling_time = 0;
+elseif last_outside < length(t_check)
+    disturbance_settling_time = t_check(last_outside + 1);
+else
+    error('Disturbance has not settled within 200 seconds.');
+end
+
+fprintf('Peak-relative disturbance settling time = %.4f s\n', ...
+    disturbance_settling_time);
 
 
+disp('--- DISTURBANCE DIAGNOSTICS ---')
+
+disp('Settling time:')
+disp(disturbance_settling_time)
+
+disp('Disturbance poles:')
+disp(pole(G_disturbance))
+
+disp('Is disturbance system stable?')
+disp(isstable(G_disturbance))
+
+disp('Full step information:')
+disp(info_disturbance)
 %% ------------------------------------------------------------
 % 42.1. Disturbance application time
 % ------------------------------------------------------------
@@ -126,24 +163,22 @@ disturbance_start = ...
     info_final.SettlingTime;
 
 
-%% ------------------------------------------------------------
-% 42.2. Automatically determine total simulation duration
-% ------------------------------------------------------------
 
-simulation_horizon = ...
-    disturbance_start + ...
-    disturbance_settling_time;
+% Validate the simulation timing values
+if ~isfinite(disturbance_start) || disturbance_start < 0
+    error('Invalid nominal settling time. Check Phase 4 controller.');
+end
 
+if ~isfinite(disturbance_settling_time) || disturbance_settling_time <= 0
+    error('Invalid disturbance settling time. Check controller stability.');
+end
 
-%% ------------------------------------------------------------
-% 42.3. Generate simulation time vector
-% ------------------------------------------------------------
+% Calculate simulation duration
+simulation_horizon = disturbance_start + disturbance_settling_time;
 
-t = linspace( ...
-    0, ...
-    simulation_horizon, ...
-    length(t_nominal) * 5).';
-
+% Generate evenly spaced time vector
+N = max(1000, length(t_nominal)*5);
+t = linspace(0, simulation_horizon, N).';
 
 %% ------------------------------------------------------------
 % 43. Nominal response over extended time

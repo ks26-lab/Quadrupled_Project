@@ -1,0 +1,7 @@
+Case_Name,J,B,K,GainMargin_dB,PhaseMargin_deg
+Nominal Plant,0.05,0.1,0,-Inf,49.9964618805276
+Mild Uncertainty (+15%),0.0575,0.115,0.05,Inf,61.6341766551605
+High Inertia (+60%),0.08,0.1,0,-Inf,40.5528396111541
+High Damping (+60%),0.05,0.16,0,-Inf,67.407383068827
+High Stiffness (+0.30),0.05,0.1,0.3,Inf,130.967146874456
+Worst Tested Case,0.1,0.06,0.3,Inf,38.3489189178071

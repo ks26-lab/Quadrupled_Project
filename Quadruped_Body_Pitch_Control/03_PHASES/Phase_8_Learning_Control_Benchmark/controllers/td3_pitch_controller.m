@@ -15,10 +15,22 @@ if isfield(cfg, 'u_sat'), ctrl.u_sat = cfg.u_sat; else, ctrl.u_sat = 0.40; end
 if ischar(policy_or_mat) || isstring(policy_or_mat)
     if exist(policy_or_mat, 'file')
         loaded = load(policy_or_mat);
-        if isfield(loaded, 'actor'), ctrl.actor = loaded.actor;
-        elseif isfield(loaded, 'policy'), ctrl.actor = loaded.policy;
-        else, ctrl.actor = loaded;
-        end
+        
+if isfield(loaded, 'td3_actor')
+    ctrl.actor = loaded.td3_actor;
+elseif isfield(loaded, 'actor')
+    ctrl.actor = loaded.actor;
+elseif isfield(loaded, 'policy')
+    ctrl.actor = loaded.policy;
+else
+    ctrl.actor = loaded;
+end
+
+% Verify that the trained actor was loaded correctly
+required = {'W1', 'b1', 'W2', 'b2', 'W3', 'b3'};
+assert(all(isfield(ctrl.actor, required)), ...
+    'TD3 model file does not contain valid actor weights.');
+
     else
         error('TD3 policy file not found: %s', policy_or_mat);
     end

@@ -735,11 +735,18 @@ function out = simulate_contact_loss_case(p6_config, fault_info, Kp, Ki, plant_p
             eval_theta = theta_arr(idx_eval:end);
             outside_band = abs(eval_theta - ref_val) > p6_config.recovery_band;
             last_outside = find(outside_band, 1, 'last');
-            if isempty(last_outside)
-                rec_time = 0.0;
-            else
-                rec_time = time(idx_eval + last_outside) - t_eval_start;
-            end
+            
+if isempty(last_outside)
+    rec_time = 0.0;
+elseif last_outside == numel(eval_theta)
+    % Recovery was not achieved before simulation ended
+    rec_time = NaN;
+else
+    % Convert relative index to absolute index
+    recovery_idx = idx_eval + last_outside;
+    rec_time = time(recovery_idx) - t_eval_start;
+end
+
         end
     else
         rec_time = 0.0;

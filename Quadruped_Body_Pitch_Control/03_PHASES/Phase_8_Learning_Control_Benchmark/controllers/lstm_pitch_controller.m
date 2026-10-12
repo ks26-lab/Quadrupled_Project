@@ -16,10 +16,17 @@ if isfield(cfg, 'u_sat'), ctrl.u_sat = cfg.u_sat; else, ctrl.u_sat = 0.40; end
 if ischar(weights_or_mat) || isstring(weights_or_mat)
     if exist(weights_or_mat, 'file')
         loaded = load(weights_or_mat);
-        if isfield(loaded, 'net'), ctrl.net = loaded.net;
-        elseif isfield(loaded, 'weights'), ctrl.net = loaded.weights;
-        else, ctrl.net = loaded;
-        end
+        
+if isfield(loaded, 'lstm_weights')
+    ctrl.net = loaded.lstm_weights;
+elseif isfield(loaded, 'net')
+    ctrl.net = loaded.net;
+elseif isfield(loaded, 'weights')
+    ctrl.net = loaded.weights;
+else
+    ctrl.net = loaded;
+end
+
     else
         error('LSTM model file not found: %s', weights_or_mat);
     end

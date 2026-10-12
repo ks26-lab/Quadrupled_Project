@@ -1,0 +1,13 @@
+Metric,Nominal_Plant,Worst_Case_Plant
+Plant Inertia J [kg.m^2],0.05,0.1
+Plant Damping B [N.m.s/rad],0.1,0.06
+Plant Stiffness K [N.m/rad],0,0.3
+Rise Time [s],0.798726938258741,89.0857516236195
+Settling Time [s],6.41267950959822,169.699292730363
+Percent Overshoot [%],19.6560749864549,0
+Steady-State Error [rad],0,0
+RMS Tracking Error [rad],0.226912522340556,0.564100566004936
+Peak Control Torque [N.m],0.200060253393986,0.200120962985353
+Disturbance Peak Deviation [rad],1.70568722609903,0.985424522751621
+Disturbance Recovery Time [s],5,5
+Closed-Loop Stability,STABLE,STABLE

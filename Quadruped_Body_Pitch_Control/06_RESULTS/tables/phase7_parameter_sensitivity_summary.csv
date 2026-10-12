@@ -1,0 +1,4 @@
+Parameter,Nominal_Value,Tested_Range,Worst_Tested_Value,Governing_Metric,Nominal_Metric,Worst_Metric,Pct_Degradation,Stability_Result,Interpretation
+Inertia J [kg.m^2],0.05,"[0.025, 0.100] (-50% to +100%)",0.1,Settling Time,6.41267950959822,8.49476143987848,32.4682050173237,STABLE,Dominant factor; inertia lag increases settling time
+Damping B [N.m.s/rad],0.1,"[0.050, 0.200] (-50% to +100%)",0.05,Settling Time,6.41267950959822,20.2031000805367,215.049271529905,STABLE,Secondary factor; low damping increases overshoot & settling
+Stiffness K [N.m/rad],0,"[0.00, 0.50] (Additive)",0.5,Settling Time,6.41267950959822,249.864769225274,3796.41754045695,STABLE,Minor factor; slightly increases natural frequency
