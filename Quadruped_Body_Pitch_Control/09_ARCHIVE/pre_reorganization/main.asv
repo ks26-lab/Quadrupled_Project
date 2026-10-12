@@ -1,0 +1,21 @@
+clc;
+clear;
+close all;
+
+%% QUADRUPED BODY-PITCH CONTROL
+% Initial SISO simulation
+
+%% Physical parameters
+
+J = 0.05;      % Body pitch moment of inertia
+B = 0.10;      % Damping coefficient
+K = 0;         % Initial restoring stiffness
+
+%% Plant model
+
+s = tf('s');
+
+G = 1/(J*s^2 + B*s + K);
+
+disp('Quadruped pitch plant:');
+G
