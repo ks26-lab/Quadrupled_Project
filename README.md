@@ -317,7 +317,7 @@ Quadrupled_Project/
 3. Alternatively, in the MATLAB Command Window, execute:
    ```matlab
    % Replace with your actual directory if different:
-   cd('c:\Users\karti\Desktop\Projects\Subject\Quadrupled_Project')
+
    ```
 4. Verify your current working directory:
    ```matlab
