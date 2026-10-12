@@ -1,0 +1,161 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="conveyor_obstacle_world">
+    <!-- Physics Configuration -->
+    <physics name="1ms" type="ode">
+      <max_step_size>0.005</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <!-- Sun / Lighting -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Ground Floor -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>20 20</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>20 20</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.3 0.3 0.35 1</ambient>
+            <diffuse>0.3 0.3 0.35 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Industrial Conveyor Belt Platform -->
+    <!-- Dimensions: Length = 4.0 m, Width = 1.0 m, Height = 0.20 m -->
+    <model name="conveyor_belt_platform">
+      <static>true</static>
+      <pose>0.5 0 0.10 0 0 0</pose>
+      
+      <!-- Frame Base -->
+      <link name="conveyor_base">
+        <visual name="frame_visual">
+          <geometry>
+            <box>
+              <size>4.0 1.0 0.20</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.15 0.18 1</ambient>
+            <diffuse>0.2 0.2 0.25 1</diffuse>
+          </material>
+        </visual>
+        <collision name="frame_collision">
+          <geometry>
+            <box>
+              <size>4.0 1.0 0.20</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.8</mu>
+                <mu2>0.8</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Obstacle 1: Low Stepping Block (Height = 0.03 m) -->
+    <model name="obstacle_step_1">
+      <static>true</static>
+      <pose>0.80 0 0.215 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.20 0.60 0.03</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.5 0.1 1</ambient>
+            <diffuse>0.9 0.55 0.1 1</diffuse>
+          </material>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.20 0.60 0.03</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Obstacle 2: Inclined Ramp (Height = 0.04 m, Length = 0.40 m) -->
+    <model name="obstacle_ramp">
+      <static>true</static>
+      <pose>1.30 0 0.22 0 0.10 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.40 0.60 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.7 0.3 1</ambient>
+            <diffuse>0.2 0.8 0.3 1</diffuse>
+          </material>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.40 0.60 0.02</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Obstacle 3: Rectangular High Block (Height = 0.05 m) -->
+    <model name="obstacle_block_high">
+      <static>true</static>
+      <pose>1.90 0 0.225 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.15 0.50 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.2 0.2 1</ambient>
+            <diffuse>0.9 0.2 0.2 1</diffuse>
+          </material>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.15 0.50 0.05</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+  </world>
+</sdf>
